@@ -10,7 +10,7 @@ const Navbar = () => {
     </>
 
     return (
-        <div>
+        <div className="mb-5">
             <div className="navbar bg-base-100">
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -31,7 +31,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Get started</a>
+                <button className="btn btn-outline rounded-md btn-primary">Appointment</button>
                 </div>
             </div>
         </div>
