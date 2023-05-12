@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 
@@ -7,8 +8,9 @@ import { AuthContext } from "../../Provider/AuthProvider";
 const CheckOut = () => {
 
     const { user } = useContext(AuthContext);
+
     const service = useLoaderData();
-    const { title, _id, price } = service;
+    const { title, _id, price, img } = service;
 
     const handleBookService = event => {
         event.preventDefault();
@@ -17,21 +19,43 @@ const CheckOut = () => {
         const email = user?.email;
         const date = form.date.value;
 
-        const order = {
+        const booking = {
             customerName: name,
             email,
             date,
-            service: _id,
+            img,
+            service_title: title,
+            service_id: _id,
             price: price
         }
 
-        console.log(order)
+        console.log(booking);
+
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.insertedId) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Your booking is complete!'
+                    })
+                }
+            })
+
     }
 
     return (
         <div>
 
-            <h2 className="text-center text-4xl font-semibold">Service: {title}</h2>
+            <h2 className="text-center text-4xl font-semibold">Service: {title}
+            </h2>
 
 
             <div className="card w-full  shadow-2xl bg-base-100 max-w-5xl mx-auto my-10">
